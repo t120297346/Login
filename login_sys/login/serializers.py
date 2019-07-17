@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from rest_framework import serializers
 from login.models import User
 
@@ -9,8 +10,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         #fields = '__all__'
-        fields =['id', 'name', 'password', 'email', 'c_time']
+        fields =['id', 'name', 'password', 'email', 'c_time', 'created', 'day_since_created']
     
-    def get_days_since_created(self, obj):
+    def get_day_since_created(self, obj):
         return (now() - obj.created).days
         
+class UserSerializerV1(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'password', 'email')
